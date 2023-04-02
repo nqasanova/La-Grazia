@@ -1,0 +1,64 @@
+﻿@{
+    Layout = null;
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width initial-scale=1.0">
+    <title>La Grazia | Error Page</title>
+    <!-- GLOBAL MAINLY STYLES-->
+    <link href="~/manage//vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" href="./assets/images/Logo.png" sizes="900x900">
+    <!-- THEME STYLES-->
+    <link href="~assets/css/main.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="content">
+        <a asp-controller="home" asp-action="index">
+            <img src="" />
+            <h3 class="go-home">BACK TO HOME</h3>
+        </a>
+        <span>ERROR 404</span>
+    </div>
+<style>
+    .content {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white
+    }
+
+    .go-home {
+        color: white;
+        margin-top: 40px;
+        padding: 10px;
+        border-radius: 50px;
+        background-color: #a34253;
+        transition: .3s all;
+    }
+
+    .go-home:hover {
+            background-color: black;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+</style>
+
+<!-- JavaScript Plugins Area Start Here -->
+<script src="~/manage//vendors/jquery/dist/jquery.min.js" type="text/javascript"></script>
+<script src="~/manage//vendors/popper.js/dist/umd/popper.min.js" type="text/javascript"></script>
+<script src="~/manage//vendors/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- JavaScript Plugins Area End Here -->
+
+<!-- JavaScript Links Area Start Here -->
+<script src="~assets/js/app.js" type="text/javascript"></script>
+<!-- JavaScript Links Area End Here -->
+</body>
+</html>

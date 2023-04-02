@@ -1,0 +1,69 @@
+﻿@model Product
+
+<div class="row">
+    <div class="col-6 shop-detail-left">
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @for (int i = 0; i < Model.ProductImages.Count(); i++)
+                {
+                    <div class="carousel-item @(i==0 ? "active":"")">
+                        <img src="~/uploads/product/@Model.ProductImages[i].Image" class="d-block w-100" alt="...">
+                    </div>
+                }
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    <div class="col-6 shop-detail-right">
+        <h2>@Model.Name</h2>
+        <p class="price">$@Model.SalePrice.00</p>
+        <div class="product-desc">
+            @Model.Description
+        </div>
+        <div class="product-quantity-box">
+            <button class="add-button add-cart add-basket-btn" data-id="@Model.Id">ADD TO CART</button>
+            <button class="add-button add-wishlist-btn" data-id="@Model.Id">WISHLIST</button>
+        </div>
+        <hr>
+        <div class="shop-details-box">
+            <p>Variaty:</p>
+            <span>@Model.Variety.Name</span>
+        </div>
+        <div class="shop-details-box">
+            <p>Type:</p>
+            <span>@Model.Type.Name</span>
+        </div>
+        <div class="shop-details-box">
+            <p>Region:</p>
+            <span>@Model.Region.Name</span>
+        </div>
+        <div class="product-rating-box">
+            <div class="product-rate">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    if (i <= Model.Rate)
+                    {
+                        <i class="fas fa-star"></i>
+                    }
+                    else
+                    {
+                        <i class="far fa-star"></i>
+                    }
+                }
+
+            </div>
+            <a href="" class="product-review-count">
+                ( 5 Reviews )
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,178 @@
+﻿@model AboutViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!-- Page Title Area Start Here -->
+<section class="page-title" style="background-image: url('./assets/images/Maison\ Francis\ Kurkdjian\ 15.36.46.jpg');">
+    <div class="container">
+        <div class="row">
+            <h2>LA GRAZIA </h2>
+            <div class="page-tab">
+                <a asp-controller="home" asp-action="index">HOME</a>
+                <i class="fas fa-angle-right"></i>
+                <span>ABOUT US</span>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Page Title Area End Here -->
+
+<!-- About Area Start Here -->
+<section class="about-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <div class="about-main-left">
+                    <h2>@Model.Abouts.Title</h2>
+                    <p>@Model.Abouts.Description</p>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="about-main-right">
+                    <img src="~/assets/images/@Model.Abouts.Image" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <div class="about-main-left2">
+                    <img src="./assets/images/About Maison2.jpg" alt="">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="about-main-right2">
+                    <h2>FRAGRANCES OF LA GRAZIA</h2>
+                    <p>
+                        La Grazia is a high-end fragrance brand, founded in 2019 by the renowned perfumer Mrs. Grazia. Grazia is
+                        considered a master perfumer, having created over 40 fragrances for some of the world's most prestigious brands.
+                        The brand La Grazia offers a range of luxury perfumes and home fragrances that are both elegant and
+                        sophisticated. The brand's products are known for their attention to detail, as well as their use of
+                        high-quality ingredients and innovative fragrances.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <div class="about-main-left3">
+                    <div>
+                        <img class="deal-left-icon" src="" alt="">
+                    </div>
+                    <h2>FACTS ABOUT LA GRAZIA</h2>
+                    <p>
+                        One of the interesting things about La Grazia is its approach to fragrance creation. The brand takes a unique
+                        and creative approach to fragrance creation, combining traditional techniques with contemporary styles to create
+                        fragrances that are both timeless and modern. Each fragrance is carefully crafted, with Kurkdjian personally
+                        involved in every aspect of the process from concept to final product. This ensures that each fragrance is of the
+                        highest quality, and that it reflects Grazia's passion for fragrance.
+                    </p>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="about-main-right3">
+                    <img src="./assets/images/About Maison3.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- About Area End Here-->
+
+<!-- Second Page Title Area Start Here -->
+<section class="page-title2" style="background-image: url('./assets/images/RedBlack.jpg');">
+    <div class="container">
+        <div class="row">
+            <h2>LA GRAZIA </h2>
+            <div class="page-tab">
+                <a asp-controller="home" asp-action="index">HOME</a>
+                <i class="fas fa-angle-right"></i>
+                <span>Why Prefer Us?</span>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Second Page Title Area End Here -->
+
+<!-- Why Prefer Us Area Start Here -->
+<section class="why-prefer-us">
+    <div class="container">
+        <div class="row">
+            <h2>WHY PREFER US?</h2>
+            <div class="container">
+                <div class="row">
+                    @foreach (var item in Model.Features)
+                    {
+                        <div class="col-3 why-prefer-us-box">
+                            <div class="why-prefer-us-img">
+                                <img src="~/assets/images/@item.Image" alt="" width="100px">
+                            </div>
+                            <h3>@item.Title</h3>
+                            <p>@item.Description</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Why Prefer Us Area End Here -->
+
+<!-- Third Page Title Area Start Here -->
+<section class="page-title3" style="background-image: url('./assets/images/BlackRed.jpg');">
+    <div class="container">
+        <div class="row">
+            <h2>LA GRAZIA </h2>
+            <div class="page-tab">
+                <a asp-controller="home" asp-action="index">HOME</a>
+                <i class="fas fa-angle-right"></i>
+                <span>Our Team</span>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Third Page Title Area End Here -->
+
+<!-- Team Area Start Here -->
+<section class="our-team">
+    <div class="container">
+        <div class="row">
+            <h2> MEET OUR TEAM </h2>
+            <div class="container">
+                <div class="row">
+                    @foreach (var item in Model.Teams)
+                    {
+                        <div class="col-3 team-box">
+                            <div class="team-img">
+                                <img src="~/assets/images/@item.Image" alt="">
+                            </div>
+                            <div class="team-person">
+                                <p>@item.FullName</p>
+                                <span>@item.Profession</span>
+                            </div>
+                            <div class="team-person-social-media">
+                                <a asp-controller="about" asp-action="index">
+                                    <i class="@Model.Settings.InstagramIcon"></i>
+                                </a>
+                                <a asp-controller="about" asp-action="index">
+                                    <i class="@Model.Settings.FacebookIcon"></i>
+                                </a>
+                                <a asp-controller="about" asp-action="index">
+                                    <i class="@Model.Settings.TwitterIcon"></i>
+                                </a>
+                                <a asp-controller="about" asp-action="index">
+                                    <i class="@Model.Settings.PinterestIcon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Team Area End Here -->

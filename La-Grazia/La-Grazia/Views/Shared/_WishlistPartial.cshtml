@@ -1,0 +1,14 @@
+﻿@model List<WishlistProductViewModel>
+@{
+    Layout = null;
+}
+
+<input hidden value="hello" class="world" />
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>
+            @item.Name
+        </li>
+    }
+</ul>

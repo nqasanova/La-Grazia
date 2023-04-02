@@ -1,0 +1,148 @@
+﻿@model ProductViewModel
+@{
+    ViewData["Title"] = "Index";
+    int selectedPage = ViewBag.SelectedPage;
+    decimal totalPage = ViewBag.TotalPage;
+    List<WishlistProductViewModel> wishlists = ViewBag.Wishlists;
+}
+
+<!-- Page Title Area Start Here -->
+<section class="page-title" style="background-image: url('./assets/images/Maison\ Francis\ Kurkdjian\ 15.36.46.jpg');">
+    <div class="container">
+        <div class="row">
+            <h1>SHOP</h1>
+            <div class="page-tab">
+                <a asp-controller="home" asp-action="index">HOME</a>
+                <i class="fas fa-angle-right"></i>
+                <span>SHOP</span>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Page Title Area End Here -->
+
+<!-- Shopping Area Start Here-->
+<section class="shop-main">
+    <div class="container">
+        <h2>SHOP</h2>
+        <div class="row">
+            <div class="col-3">
+                <aside>
+                    <div class="shop-search">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control input-text"
+                                   placeholder="Search products...." aria-label="Recipient's username"
+                                   aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-search btn-lg" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="shop-categories">
+                        <h4>Variety</h4>
+                        @foreach (var item in Model.Varieties)
+                        {
+                            <li>
+                                <a asp-action="index" asp-controller="product" asp-route-varietyId="@item.Id">@item.Name (@item.Products.Count()) </a>
+                            </li>
+                        }
+                    </div>
+
+                    <div class="shop-rates">
+                        <h4>Type</h4>
+                        @foreach (var item in Model.Types)
+                        {
+                            <li>
+                                <a asp-action="index" asp-controller="product" asp-route-typeId="@item.Id">@item.Name (@item.Products.Count()) </a>
+                            </li>
+                        }
+                    </div>
+
+                    <div class="shop-price-range">
+                        <h4>Region</h4>
+                        @foreach (var item in Model.Regions)
+                        {
+                            <li>
+                                <a asp-action="index" asp-controller="product" asp-route-regionId="@item.Id">@item.Name (@item.Products.Count()) </a>
+                            </li>
+                        }
+                    </div>
+                </aside>
+            </div>
+            <div class="col-9">
+                <div class="shop-products">
+                    <div class="container">
+                        <div class="row">
+                            @foreach (var item in Model.Products)
+                            {
+                                <div class="col-4">
+                                    <div class="product-card">
+                                        <div class="card-img">
+                                            <a asp-controller="product" asp-action="detail" asp-route-id="@item.Id">
+                                                <img src="~/assets/images/@item.ProductImages.FirstOrDefault()?.Image" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <h5>@item.Name</h5>
+                                            <div class="product-rate">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    if (i <= item.Rate)
+                                                    {
+                                                        <i class="fas fa-star"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="far fa-star"></i>
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="product-price">
+                                                <span>€@item.Price</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-icons">
+                                            @if (wishlists != null)
+                                            {
+                                                @if (!wishlists.Any(f => f.ProductId == item.Id))
+                                                {
+                                                    <a href="" class="wishlist-button add-wishlist-btn" data-id="@item.Id">
+                                                        <i class="far fa-heart"></i>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="" class="wishlist-button add-wishlist-btn" data-id="@item.Id">
+                                                        <i class="fas fa-heart"></i>
+                                                    </a>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <a href="" class="wishlist-button add-wishlist-btn" data-id="@item.Id">
+                                                    <i class="far fa-heart"></i>
+                                                </a>
+                                            }
+
+                                            <a href="" class="add-basket-btn" data-id="@item.Id">
+                                                <i class="fas fa-shopping-cart"></i>
+                                            </a>
+
+                                            <a data-bs-toggle="modal" data-bs-target="#productModal" class="show-product-modal" data-id="@item.Id">
+                                                <i class="fas fa-expand-alt"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Shopping Area End Here-->

@@ -1,0 +1,47 @@
+﻿@model List<BasketProductViewModel>
+@{
+    Layout = null;
+    double totalCount = 0;
+    foreach (var item in Model)
+    {
+        totalCount += item.Price * item.Count;
+    }
+}
+
+<div class="cart-box-main">
+    <div class="hidden-total-count" style="display:none" data-id="@Model.Count()"></div>
+    <div class="my-cart-box">
+        @foreach (var item in Model)
+        {
+            <div class="cart-box-items">
+                <div class="cart-box-img">
+                    <a asp-controller="product" asp-action="detail" asp-route-id="@item.ProductId">
+                        <img src="~/uploads/product/@item.Image" alt="">
+                    </a>
+                </div>
+                <div class="cart-box-detail">
+                    <div class="cart-product-name">
+                        <a asp-controller="product" asp-action="detail" asp-route-id="@item.ProductId">
+                            @item.Name
+                        </a>
+                        <span>@item.Count × $@item.Price.00 </span>
+
+                    </div>
+                    <div id="remove-button" class="remove-button" data-content="@item.Count" data-id="@item.ProductId">
+                        <i class="fas fa-minus-circle"></i>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="cart-subtotal">
+        <span class="subtotal-text">subtotal:</span>
+        <span class="subtotal-price">$@totalCount.00</span>
+    </div>
+
+    <div class="cart-buttons">
+        <a asp-controller="cart" asp-action="index" class="button view-cart-button">view cart</a>
+        <a asp-controller="order" asp-action="checkout" class="button checkout-button">checkout</a>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+﻿@model List<Faq>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!-- Page Title Area Start Here -->
+<section class="page-title" style="background-image: url('./assets/images/Maison\ Francis\ Kurkdjian\ 15.36.46.jpg')">
+    <div class="container">
+        <div class="row">
+            <h1>FREQUENTLY ASKED QUESTIONS</h1>
+            <div class="page-tab">
+                <a asp-controller="home" asp-action="index">HOME</a>
+                <i class="fas fa-angle-right"></i>
+                <span>FAQ</span>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Page Title Area End Here -->
+
+<!-- FAQ Area Start Here -->
+<section class="faq-main">
+    <div class="container">
+        <div class="row">
+            <h2>Frequently Asked Questions</h2>
+            <div class="container">
+                <div class="accordion" id="accordionExample">
+                    @foreach (var item in Model)
+                    {
+                        <div class="item">
+                            <div class="item-header" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                            data-target="#collapse-@item.Id" aria-expanded="false" aria-controls="collapse-@item.Id">
+                                        @item.Question
+                                        <i class="fa fa-angle-down"></i>
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapse-@item.Id" class="collapse" aria-labelledby="heading-@item.Id"
+                                 data-parent="#accordionExample">
+                                <div class="t-p">
+                                    @item.Answer
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- FAQ Area End Here -->
+
+@section faqjs
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+}
