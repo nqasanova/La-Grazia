@@ -67,6 +67,7 @@ namespace La_Grazia.Areas.Controllers
 
         }
 
+
         public IActionResult Register()
         {
             return View();
@@ -77,7 +78,7 @@ namespace La_Grazia.Areas.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid) return View();
-            var user = await _userManager.FindByNameAsync(model.UserName);
+            var user = await _userManager.FindByNameAsync(model.Username);
             if (user != null)
             {
                 ModelState.AddModelError("Username", "Username already exists");
@@ -86,8 +87,10 @@ namespace La_Grazia.Areas.Controllers
 
             User newUser = new User
             {
-                UserName = model.UserName,
+                FullName = model.Fullname,
+                UserName = model.Username,
                 Email = model.Email,
+
             };
 
             IdentityResult identityResult = await _userManager.CreateAsync(newUser, model.Password);

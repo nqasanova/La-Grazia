@@ -36,6 +36,7 @@ namespace La_Grazia
             }).AddDefaultTokenProviders().AddEntityFrameworkStores<DataContext>();
 
             services.AddScoped<LayoutService>();
+            services.AddScoped<IMailService, MailService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddHttpContextAccessor();
             services.AddSession();

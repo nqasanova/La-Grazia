@@ -1,9 +1,11 @@
 ﻿@model HomeViewModel
 @inject UserManager<User> userManager
+
 @{
     ViewData["Title"] = "Home Page";
     List<WishlistProductViewModel> wishlists = ViewBag.Wishlists;
     User member = User.Identity.IsAuthenticated ? userManager.Users.FirstOrDefault(x => x.UserName == User.Identity.Name && !x.IsAdmin) : null;
+
 }
 
 @if (TempData["Order"] != null)
@@ -79,6 +81,7 @@
     </div>
 </main>
 <!-- Main Slider Area End Here -->
+
 <!-- Who We Are Area Start Here -->
 <div class="about-style-3">
     <div class="container">
@@ -145,6 +148,7 @@
     </div>
 </div>
 <!-- Who We Are Area End Here-->
+
 <!-- Discount Area Start Here -->
 <section class="top-sale" style="background-image: url(./assets/images/Red2.jpeg);">
     <div class="container">
@@ -158,6 +162,7 @@
     </div>
 </section>
 <!-- Discount Area End Here -->
+
 <!-- Feature Products Area Start Here -->
 <section class="feature-products">
     <div class="container">
@@ -305,6 +310,7 @@
     </div>
 </section>
 <!-- Feature Products Area End Here -->
+
 <!-- Clock Area Start Here -->
 <div class="container" style="background-image: url('./assets/images/Womensday.jpeg')">
     <div class="poster d-flex my-5">
@@ -337,6 +343,7 @@
     </div>
 </div>
 <!-- Clock Area End Here -->
+
 <!-- Clients' Feedback Area Start Here -->
 @if (Model.Reviews.Count() > 0)
 {
@@ -376,6 +383,7 @@
     </section>
 }
 <!-- Clients' Feedback Area End Here -->
+
 <!-- Collaborations Area Start Here -->
 <section class="collabs">
     <div class="container">
@@ -405,6 +413,7 @@
     </div>
 </section>
 <!-- Collaborations Area End Here -->
+
 <!-- Newsletter Area Start Here -->
 <section class="last-news" style="background-image: url('./assets/images/Newsletter.jpg');">
     <div class="container">
