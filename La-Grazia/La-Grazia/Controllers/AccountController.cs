@@ -10,318 +10,127 @@ using La_Grazia.Database;
 using Microsoft.EntityFrameworkCore;
 using La_Grazia.Database.Models.Enums;
 using Newtonsoft.Json;
+using MailKit;
+using IMailService = La_Grazia.Services.IMailService;
+using La_Grazia.Constants;
 
 namespace La_Grazia.Areas.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly DataContext _datacontext;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly IEmailService _emailService;
+        private readonly IMailService _mailService;
 
-        public AccountController(DataContext datacontext, UserManager<User> userManager, SignInManager<User> signInManager, IEmailService emailService)
+        public AccountController(UserManager<User> userManager, IMailService mailService, SignInManager<User> signInManager)
         {
-            _datacontext = datacontext;
             _userManager = userManager;
+            _mailService = mailService;
             _signInManager = signInManager;
-            _emailService = emailService;
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid) return View();
+
+            var user = await _userManager.FindByNameAsync(model.Login);
+            if (user == null) user = await _userManager.FindByEmailAsync(model.Login);
+
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Invalid credentials");
+                return View();
+            }
+
+            if (!user.IsAdmin)
+            {
+                ModelState.AddModelError("", "User is not admin");
+                return View();
+            }
+
+
+            var signinResult = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
+            if (!signinResult.Succeeded)
+            {
+                ModelState.AddModelError("", "Invalid Credentials");
+                return View();
+            }
+
+            return RedirectToAction(nameof(Index), "Home");
+
         }
 
         public IActionResult Register()
         {
-            RegisterViewModel memberRegisterVM = new RegisterViewModel { };
-            return PartialView("_RegisterModalPartial", memberRegisterVM);
+            return View();
         }
 
-        [HttpPost, ActionName("Register")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegisterPost(RegisterViewModel registerVM)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            TempData["Register"] = false;
-
-            if (!ModelState.IsValid) return RedirectToAction("index", "home");
-
-            if (registerVM == null)
+            if (!ModelState.IsValid) return View();
+            var user = await _userManager.FindByNameAsync(model.UserName);
+            if (user != null)
             {
-                return RedirectToAction("index", "home");
-            }
-
-            if (registerVM.UserName == null)
-            {
-                return RedirectToAction("index", "home");
-            }
-
-            if (registerVM.Email == null)
-            {
-                return RedirectToAction("index", "home");
-            }
-
-            if (registerVM.FullName == null)
-            {
-                return RedirectToAction("index", "home");
-            }
-
-            User member = await _userManager.FindByNameAsync(registerVM.UserName);
-
-            if (member != null)
-            {
-                ModelState.AddModelError("UserName", "UserName already taken!");
-                return RedirectToAction("index", "error");
-            }
-
-            member = await _userManager.FindByEmailAsync(registerVM.Email);
-
-            if (member != null)
-            {
-                ModelState.AddModelError("Email", "Email already taken!");
-                return RedirectToAction("index", "error");
-            }
-
-            member = new User
-            {
-                FullName = registerVM.FullName,
-                UserName = registerVM.UserName,
-                Email = registerVM.Email
-            };
-
-            if (registerVM.Password == null)
-            {
-                return RedirectToAction("index", "error");
-            }
-
-            var result = await _userManager.CreateAsync(member, registerVM.Password);
-
-            if (!result.Succeeded)
-            {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-
-                return RedirectToAction("index", "error");
-            }
-
-            await _userManager.AddToRoleAsync(member, "Member");
-            await _signInManager.SignInAsync(member, true);
-
-            TempData["Register"] = true;
-
-            string body = string.Empty;
-
-            using (StreamReader reader = new StreamReader("wwwroot/templates/Register.html"))
-            {
-                body = reader.ReadToEnd();
-            }
-
-            _emailService.Send(registerVM.Email, "Welcome to Ulvino", body);
-
-            return RedirectToAction("index", "home");
-        }
-
-
-        public IActionResult Login()
-        {
-            LoginViewModel memberLoginVM = new LoginViewModel { };
-            return PartialView("_LoginModalPartial", memberLoginVM);
-        }
-
-        [HttpPost, ActionName("Login")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginPost(LoginViewModel loginVM)
-        {
-            TempData["Login"] = false;
-
-            if (!ModelState.IsValid) return RedirectToAction("index", "home");
-
-            if (loginVM == null)
-            {
-                return RedirectToAction("index", "home");
-            }
-
-
-            User member = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == loginVM.UserName);
-
-            if (member == null)
-            {
-                ModelState.AddModelError("", "username or password incorrect!");
-                return RedirectToAction("index", "home");
-            }
-
-            var result = await _signInManager.PasswordSignInAsync(member, loginVM.Password, true, false);
-
-            if (!result.Succeeded)
-            {
-                ModelState.AddModelError("", "username or password incorrect!");
-                return RedirectToAction("index", "home");
-
-            }
-
-            User admin = null;
-
-            admin = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == loginVM.UserName && x.IsAdmin);
-
-            if (admin != null)
-            {
-                return RedirectToAction("index", "dashboard", new { area = "manage" });
-            }
-
-            TempData["Login"] = true;
-
-            return RedirectToAction("index", "home");
-        }
-
-
-        public IActionResult ForgotPassword()
-        {
-            ForgotPasswordViewModel forgotPasswordVM = new ForgotPasswordViewModel { };
-            return PartialView("_ForgotModalPartial", forgotPasswordVM);
-        }
-
-        [HttpPost, ActionName("ForgotPassword")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel forgotPasswordVM)
-        {
-            User user = await _userManager.FindByEmailAsync(forgotPasswordVM.Email);
-
-            if (user == null)
-            {
-                ModelState.AddModelError("Email", "Email is not valid!");
+                ModelState.AddModelError("Username", "Username already exists");
                 return View();
             }
 
-            string token = await _userManager.GeneratePasswordResetTokenAsync(user);
-
-            string callback = Url.Action("resetpassword", "account", new { token, email = user.Email }, Request.Scheme);
-
-            string body = string.Empty;
-
-            using (StreamReader reader = new StreamReader("wwwroot/templates/forgotpassword.html"))
+            User newUser = new User
             {
-                body = reader.ReadToEnd();
-            }
-
-            body = body.Replace("{{url}}", callback);
-
-            _emailService.Send(user.Email, "Reset password", body);
-
-            return RedirectToAction("index", "home");
-        }
-
-        public async Task<IActionResult> ResetPassword(string token, string email)
-        {
-            ResetPasswordViewModel resetPasswordVM = new ResetPasswordViewModel
-            {
-                Token = token,
-                Email = email
+                UserName = model.UserName,
+                Email = model.Email,
             };
 
-            return View(resetPasswordVM);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordVM)
-        {
-            if (!ModelState.IsValid) return View(resetPasswordVM);
-
-            User user = await _userManager.FindByEmailAsync(resetPasswordVM.Email);
-
-            if (user == null)
+            IdentityResult identityResult = await _userManager.CreateAsync(newUser, model.Password);
+            if (!identityResult.Succeeded)
             {
-                ModelState.AddModelError("", "Invalid Token");
-                return View(resetPasswordVM);
-            }
-
-            var resetResult = await _userManager.ResetPasswordAsync(user, resetPasswordVM.Token, resetPasswordVM.Password);
-
-            if (!resetResult.Succeeded)
-            {
-                foreach (var item in resetResult.Errors)
+                foreach (var error in identityResult.Errors)
                 {
-                    ModelState.AddModelError("", item.Description);
+                    ModelState.AddModelError("", error.Description);
                 }
-
-                return View(resetPasswordVM);
+                return View();
             }
 
-            return RedirectToAction("index", "home");
+            await _userManager.AddToRoleAsync(newUser, RoleConstants.User);
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+
+            var link = Url.Action(nameof(ConfirmEmail), "Account", new { newUser.UserName, token }, Request.Scheme);
+
+            await _mailService.SendEmailAsync(new MailRequest
+            {
+                ToEmail = newUser.Email,
+                Subject = "Complete registration",
+                Body = link
+            });
+
+            return RedirectToAction(nameof(Index), "Home");
+
         }
 
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> ConfirmEmail(string username, string token)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null) return BadRequest();
+
+            var identityResult = await _userManager.ConfirmEmailAsync(user, token);
+            if (!identityResult.Succeeded) return BadRequest();
+            return RedirectToAction(nameof(Index), "Home");
+        }
+
+        public async Task<IActionResult> SignOut()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("index", "home");
-        }
-
-        [Authorize(Roles = "Member")]
-        public async Task<IActionResult> Profile()
-        {
-            User member = await _userManager.FindByNameAsync(User.Identity.Name);
-
-            ProfileViewModel profileVM = new ProfileViewModel
-            {
-                Email = member.Email,
-                FullName = member.FullName,
-                PhoneNumber = member.PhoneNumber,
-                UserName = member.UserName,
-                Orders = _datacontext.Orders.Include(x => x.OrderedProducts).Where(x => x.UserId == member.Id).ToList()
-            };
-
-            return View(profileVM);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Member")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Profile(ProfileViewModel profileVM)
-        {
-            TempData["ProfileEdit"] = false;
-
-            if (!ModelState.IsValid) return RedirectToAction("profile");
-
-            User member = await _userManager.FindByNameAsync(User.Identity.Name);
-
-            if (!string.IsNullOrWhiteSpace(profileVM.ConfirmNewPassword) && !string.IsNullOrWhiteSpace(profileVM.NewPassword))
-            {
-                var passwordChangeResult = await _userManager.ChangePasswordAsync(member, profileVM.CurrentPassword, profileVM.NewPassword);
-
-                if (!passwordChangeResult.Succeeded)
-                {
-                    foreach (var item in passwordChangeResult.Errors)
-                    {
-                        ModelState.AddModelError("", item.Description);
-                    }
-
-                    return RedirectToAction("profile");
-                }
-            }
-
-            if (member.Email != profileVM.Email && _userManager.Users.Any(x => x.NormalizedEmail == profileVM.Email.ToUpper()))
-            {
-                ModelState.AddModelError("Email", "This email has already been taken!");
-                return RedirectToAction("profile");
-            }
-
-            member.FullName = profileVM.FullName;
-            member.Email = profileVM.Email;
-            member.PhoneNumber = profileVM.PhoneNumber;
-
-            var result = await _userManager.UpdateAsync(member);
-
-            if (!result.Succeeded)
-            {
-                foreach (var item in result.Errors)
-                {
-                    ModelState.AddModelError("", item.Description);
-                }
-
-                return RedirectToAction("profile");
-            }
-
-            TempData["ProfileEdit"] = true;
-
-            return RedirectToAction("profile");
+            return RedirectToAction(nameof(Index), "Home");
         }
     }
 }

@@ -8,9 +8,6 @@ namespace La_Grazia.ViewModels
         [StringLength(maximumLength: 20, MinimumLength = 6)]
         public string UserName { get; set; }
 
-        [StringLength(maximumLength: 50, MinimumLength = 6)]
-        public string FullName { get; set; }
-
         [StringLength(maximumLength: 100, MinimumLength = 6)]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
