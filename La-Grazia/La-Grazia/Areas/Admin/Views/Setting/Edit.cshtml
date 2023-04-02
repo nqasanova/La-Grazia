@@ -1,0 +1,68 @@
+﻿@model Setting
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container-fluid pt-3">
+    <h1 class="pb-5 text-warning">Edit</h1>
+    <form method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="form-group col-sm-6 ">
+                <label class="font-18" asp-for="InstagramIcon">InstagramIcon</label>
+                <input asp-for="InstagramIcon" class="form-control input-rounded" placeholder="InstagramIcon">
+                <span class="text-danger" asp-validation-for="InstagramIcon"></span>
+            </div>
+            <div class="form-group col-md-6 ">
+                <label class="font-18" asp-for="InstagramURL">InstagramURL</label>
+                <input asp-for="InstagramURL" class="form-control input-rounded" placeholder="InstagramURL">
+                <span class="text-danger" asp-validation-for="InstagramURL"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6 ">
+                <label class="font-18" asp-for="FacebookIcon">FacebookIcon</label>
+                <input asp-for="FacebookIcon" class="form-control input-rounded" placeholder="FacebookIcon">
+                <span class="text-danger" asp-validation-for="FacebookIcon"></span>
+            </div>
+            <div class="form-group col-md-6 ">
+                <label class="font-18" asp-for="FacebookURL">FacebookURL</label>
+                <input asp-for="FacebookURL" class="form-control input-rounded" placeholder="FacebookURL">
+                <span class="text-danger" asp-validation-for="FacebookURL"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6 ">
+                <label class="font-18" asp-for="TwitterIcon">TwitterIcon</label>
+                <input asp-for="TwitterIcon" class="form-control input-rounded" placeholder="TwitterIcon">
+                <span class="text-danger" asp-validation-for="TwitterIcon"></span>
+            </div>
+            <div class="form-group col-md-6 ">
+                <label class="font-18" asp-for="TwitterURL">TwitterURL</label>
+                <input asp-for="TwitterURL" class="form-control input-rounded" placeholder="TwitterURL">
+                <span class="text-danger" asp-validation-for="TwitterURL"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6 ">
+                <label class="font-18" asp-for="PinterestIcon">PinterestIcon</label>
+                <input asp-for="PinterestIcon" class="form-control input-rounded" placeholder="PinterestIcon">
+                <span class="text-danger" asp-validation-for="PinterestIcon"></span>
+            </div>
+            <div class="form-group col-md-6 ">
+                <label class="font-18" asp-for="PinterestURL">PinterestURL</label>
+                <input asp-for="PinterestURL" class="form-control input-rounded" placeholder="PinterestURL">
+                <span class="text-danger" asp-validation-for="PinterestURL"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <input type="hidden" name="Image" value="@Model.HeaderLogo" />
+                <img style="max-width: 300px; border-radius: 10px; display:block;" src="~/assets/images/@Model.HeaderLogo" />
+                <button class="btn btn-danger mt-2 remove-img-box" style="margin-left:115px; cursor:pointer">Delete</button>
+            </div>
+        </div>
+        <div class="form-group pt-5 text-center">
+            <button type="submit" class="btn btn-warning btn-rounded font-20 w-25 text-center">Update</button>
+        </div>
+    </form>
+</div>

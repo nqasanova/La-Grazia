@@ -1,0 +1,61 @@
+﻿@{
+    Layout = null;
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width initial-scale=1.0">
+    <title>La Grazia | Error Page</title>
+    <!-- GLOBAL MAINLY STYLES-->
+    <link href="~/manage//vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" href="https://demo-40.woovinapro.com/wp-content/uploads/2020/07/favi-icon.png" sizes="192x192">
+    <!-- THEME STYLES-->
+    <link href="~assets/css/main.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="content">
+        <a asp-controller="dashboard" asp-action="index">
+            <img src="~/assets/images/ulvino-red-black.png" />
+            <h3 class="go-home">BACK TO HOME</h3>
+        </a>
+        <img class="image" src="https://cdn.dribbble.com/users/1241808/screenshots/2864457/media/847b5e633bf2a01e1ec58982a60a4a63.gif" />
+    </div>
+    <style>
+        .content {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white
+        }
+
+        .go-home {
+            color: white;
+            margin-top: 40px;
+            padding: 10px;
+            border-radius: 50px;
+            background-color: #a34253;
+            transition: .3s all;
+        }
+
+        .go-home:hover {
+            background-color: black;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+    </style>
+
+    <!-- CORE PLUGINS -->
+    <script src="~/manage//vendors/jquery/dist/jquery.min.js" type="text/javascript"></script>
+    <script src="~/manage//vendors/popper.js/dist/umd/popper.min.js" type="text/javascript"></script>
+    <script src="~/manage//vendors/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
+    <!-- CORE SCRIPTS-->
+    <script src="~assets/js/app.js" type="text/javascript"></script>
+</body>
+</html>

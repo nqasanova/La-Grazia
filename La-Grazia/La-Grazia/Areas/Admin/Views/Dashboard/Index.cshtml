@@ -1,0 +1,185 @@
+﻿@*@model DashboardViewModel*@
+@*@{
+    ViewData["Title"] = "Index";
+    double totalIncome = 0;
+    foreach (var item in Model.AcceptedOrders)
+    {
+        totalIncome += (item.OrderedProducts.Sum(x => x.SalePrice * x.Count) - item.OrderedProducts.Sum(x => x.Price * x.Count));
+    }
+}*@
+
+@*<input hidden class="saturdayOrders" value="@Model.SaturdayOrders" />
+<input hidden class="saturdaySales" value="@Model.SaturdayIncome" />
+<input hidden class="sundayOrders" value="@Model.SundayOrders" />
+<input hidden class="sundaySales" value="@Model.SundayIncome" />
+<input hidden class="mondayOrders" value="@Model.MondayOrders" />
+<input hidden class="mondaySales" value="@Model.MondayIncome" />
+<input hidden class="tuesdayOrders" value="@Model.TuesdayOrders" />
+<input hidden class="tuesdaySales" value="@Model.TuesdayIncome" />
+<input hidden class="wednesdayOrders" value="@Model.WednesdayOrders" />
+<input hidden class="wednesdaySales" value="@Model.WednesdayIncome" />
+<input hidden class="thursdayOrders" value="@Model.ThursdayOrders" />
+<input hidden class="thursdaySales" value="@Model.ThursdayIncome" />
+<input hidden class="fridayOrders" value="@Model.FridayOrders" />
+<input hidden class="fridaySales" value="@Model.FridayIncome" />*@
+
+<!--<!-- START PAGE CONTENT-->
+<!--<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <div class="ibox bg-success color-white widget-stat">
+                <div class="ibox-body">-->
+                    @*<h2 class="m-b-5 font-strong">@Model.AcceptedOrders.Count()</h2>
+                    <div class="m-b-5">ALL ORDERS</div><i class="ti-shopping-cart widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="ibox bg-info color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">@Model.PendingOrders.Count()</h2>
+                    <div class="m-b-5">PENDING ORDERS</div><i class="ti-time widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="ibox bg-warning color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">$@totalIncome.00</h2>*@
+                    <!--<div class="m-b-5">TOTAL INCOME</div><i class="fa fa-money widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="ibox bg-danger color-white widget-stat">
+                <div class="ibox-body">-->
+                    @*<h2 class="m-b-5 font-strong">@Model.Users.Count()</h2>
+                    <div class="m-b-5">ALL USERS</div><i class="ti-user widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="ibox">
+                <div class="ibox-body">
+                    <div class="flexbox mb-4">
+                        <div>
+                            <h3 class="m-0">Statistics</h3>
+                            <div>Your shop sales analytics</div>
+                        </div>
+                        <div class="d-inline-flex">
+                            <div class="px-3" style="border-right: 1px solid rgba(0,0,0,.1);">
+                                <div class="text-muted">WEEKLY INCOME</div>
+                                <div>
+                                    <span class="h2 m-0">$@ViewBag.WeeklyIncome.00</span>
+                                </div>
+                            </div>
+                            <div class="px-3">
+                                <div class="text-muted">WEEKLY SALES</div>
+                                <div>
+                                    <span class="h2 m-0">@ViewBag.WeeklyOrders</span>*@
+                                <!--</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <canvas id="bar_chart" style="height:260px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Statistics</div>
+                </div>
+                <div class="ibox-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-7">
+                            <canvas id="doughnut_chart" style="height:160px;"></canvas>
+                        </div>
+                        <div class="col-md-5">-->
+                            @*<div class="m-b-20 text-danger"><i class="fa fa-circle-o m-r-10"></i>Red @ViewBag.RedWinesPercent% </div>
+                            <div class="m-b-20 text-info"><i class="fa fa-circle-o m-r-10"></i>White @ViewBag.WhiteWinesPercent%</div>
+                            <div class="m-b-20 text-warning"><i class="fa fa-circle-o m-r-10"></i>Rose @ViewBag.RoseWinesPercent%</div>*@
+                        @*</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Latest Orders</div>
+                    <div class="ibox-tools">
+                        <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item">option 1</a>
+                            <a class="dropdown-item">option 2</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-body">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.LatestOrders)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.Id
+                                    </td>
+                                    <td>@item.FullName</td>
+                                    <td>$@item.Total.00</td>
+                                    <td>
+                                        <span class="font-14 p-2 badge badge-@(item.Status == OrderStatus.Approved?"success":item.Status == OrderStatus.Rejected?"danger":"info")">
+                                            @(item.Status== OrderStatus.Approved?"accepted":item.Status == OrderStatus.Rejected?"rejected":"pending")
+                                        </span>
+                                    </td>
+                                    <td>@item.CreatedAt.ToString("dd MMM yyyy HH:mm")</td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .visitors-table tbody tr td:last-child {
+            display: flex;
+            align-items: center;
+        }
+
+        .visitors-table .progress {
+            flex: 1;
+        }
+
+        .visitors-table .progress-parcent {
+            text-align: right;
+            margin-left: 10px;
+        }
+    </style>*@
+
+@*</div>-->
+ END PAGE CONTENT
+
+
+@section dashboardjs
+{
+    <script src="~/manage/js/scripts/dashboard_1_demo.js" type="text/javascript"></script>
+}*@

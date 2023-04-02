@@ -1,0 +1,73 @@
+﻿@model Blog
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container-fluid pt-3">
+    <h1 class="pb-3 text-primary">Create</h1>
+    <form method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <label class="font-18" asp-for="Name">Name</label>
+                <input asp-for="Name" class="form-control input-rounded" placeholder="Name">
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="font-18" asp-for="Owner">Owner</label>
+                <input asp-for="Owner" class="form-control input-rounded" placeholder="Owner">
+                <span class="text-danger" asp-validation-for="Owner"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label class="font-18" asp-for="Order">Order</label>
+                <input asp-for="Order" class="form-control input-rounded" placeholder="Order">
+                <span class="text-danger" asp-validation-for="Order"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="font-18" asp-for="Date">Date</label>
+                <input asp-for="Date" class="form-control input-rounded" placeholder="Date">
+                <span class="text-danger" asp-validation-for="Date"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label class="font-18" asp-for="Description1">Description1</label>
+                <input asp-for="Description1" class="form-control input-rounded" placeholder="Description1">
+                <span class="text-danger" asp-validation-for="Description1"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="font-18" asp-for="Description2">Description2</label>
+                <input asp-for="Description2" class="form-control input-rounded" placeholder="Description2">
+                <span class="text-danger" asp-validation-for="Description2"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label class="font-18" asp-for="Description3">Description3</label>
+                <input asp-for="Description3" class="form-control input-rounded" placeholder="Description3">
+                <span class="text-danger" asp-validation-for="Description3"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="font-18" asp-for="Description4">Description4</label>
+                <input asp-for="Description4" class="form-control input-rounded" placeholder="Description4">
+                <span class="text-danger" asp-validation-for="Description4"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label class="font-18" asp-for="Description5">Description5</label>
+                <input asp-for="Description5" class="form-control input-rounded" placeholder="Description5">
+                <span class="text-danger" asp-validation-for="Description5"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="font-18" asp-for="ImageFile">ImageFile</label>
+                <input asp-for="ImageFile" class="form-control input-rounded" placeholder="ImageFile">
+                <span class="text-danger" asp-validation-for="ImageFile"></span>
+            </div>
+        </div>
+        <div class="form-group pt-5 text-center">
+            <button type="submit" class="btn btn-primary btn-rounded font-20 w-25 text-center">Create</button>
+        </div>
+    </form>
+</div>
