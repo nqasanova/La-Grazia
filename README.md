@@ -94,28 +94,16 @@ SQL Server
 
 1.  Clone the repository
 
-```{=html}
-<!-- -->
-```
     git clone https://github.com/nqasanova/La-Grazia
 
 2.  Configure the database connection in:
 
-```{=html}
-<!-- -->
-```
     appsettings.json
 
 3.  Apply migrations
 
-```{=html}
-<!-- -->
-```
     dotnet ef database update
 
 4.  Run the application
 
-```{=html}
-<!-- -->
-```
     dotnet run
