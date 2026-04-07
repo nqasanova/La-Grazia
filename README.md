@@ -1,4 +1,4 @@
-# La Grazia -- ASP.NET Core MVC E-Commerce Application
+# La Grazia
 
 **La Grazia** is a full-stack e-commerce web application built with
 **ASP.NET Core MVC** and **Entity Framework Core**.\
